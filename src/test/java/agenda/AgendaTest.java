@@ -27,30 +27,60 @@ public class AgendaTest {
     // A simple event
     // November 1st, 2020, 22:30, 120 minutes
     Event simple = new Event("Simple event", nov_1__2020_22_30, min_120);
+    
+     //A simple event 
+    //pas meme titre
+    Event simple2 = new Event ("Pas même titre", nov_1__2020_22_30, min_120);
+    
+    // A simple event
+    Event simple3 = new Event("Simple event", LocalDateTime.of(2020, 11, 1, 22, 40), min_120);
 
     // A Weekly Repetitive event ending at a given date
-    RepetitiveEvent fixedTermination = new FixedTerminationEvent("Fixed termination weekly", nov_1__2020_22_30, min_120, ChronoUnit.WEEKS, jan_5_2021);
+   // RepetitiveEvent fixedTermination = new FixedTerminationEvent("Fixed termination weekly", nov_1__2020_22_30, min_120, ChronoUnit.WEEKS, jan_5_2021);
 
     // A Weekly Repetitive event ending after a give number of occurrrences
-    RepetitiveEvent fixedRepetitions = new FixedTerminationEvent("Fixed termination weekly", nov_1__2020_22_30, min_120, ChronoUnit.WEEKS, 10);
+   // RepetitiveEvent fixedRepetitions = new FixedTerminationEvent("Fixed termination weekly", nov_1__2020_22_30, min_120, ChronoUnit.WEEKS, 10);
     
     // A daily repetitive event, never ending
     // November 1st, 2020, 22:30, 120 minutes
-    RepetitiveEvent neverEnding = new RepetitiveEvent("Never Ending", nov_1__2020_22_30, min_120, ChronoUnit.DAYS);
+   // RepetitiveEvent neverEnding = new RepetitiveEvent("Never Ending", nov_1__2020_22_30, min_120, ChronoUnit.DAYS);
 
     @BeforeEach
     public void setUp() {
         agenda = new Agenda();
         agenda.addEvent(simple);
-        agenda.addEvent(fixedTermination);
-        agenda.addEvent(fixedRepetitions);
-        agenda.addEvent(neverEnding);
+      //  agenda.addEvent(fixedTermination);
+      //  agenda.addEvent(fixedRepetitions);
+     //   agenda.addEvent(neverEnding);
     }
-    
+ /*   
     @Test
     public void testMultipleEventsInDay() {
         assertEquals(4, agenda.eventsInDay(nov_1_2020).size(), "Il y a 4 événements ce jour là");
-        assertTrue(agenda.eventsInDay(nov_1_2020).contains(neverEnding));
+      //  assertTrue(agenda.eventsInDay(nov_1_2020).contains(neverEnding));
+    }
+   */ 
+      @Test
+    public void testNotSameTitle() {
+        assertFalse (agenda.findByTitle("Simple event").contains(simple2));
+        
+    }
+    
+    @Test
+    public void testSameTitle () {
+        assertTrue(agenda.findByTitle("Simple event").contains(simple)); 
+    }
+    
+    @Test
+    public void testIsNotFree() {
+        agenda.addEvent(simple);
+        assertFalse(agenda.isFreeFor(simple3));
+    }
+    
+    @Test
+    public void testIsFree () {
+        agenda.addEvent(simple);
+        assertTrue(agenda.isFreeFor(simple2));
     }
 
 
